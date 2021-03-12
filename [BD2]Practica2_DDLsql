@@ -1,0 +1,58 @@
+CREATE TABLE Vendedor(
+    id_vendedor int not null,
+    nombre_vendedor varchar(50) not null,
+    apellido_vendedor varchar(50) not null,
+    direccion_vendedor varchar(50) not null,
+    dpi_vendedor varchar(50) not null,
+    CONSTRAINT id_vendedor_pk PRIMARY KEY (id_vendedor)
+    
+);
+
+
+CREATE TABLE CLIENTE(
+    ID_CLIENTE INT NOT NULL,
+    NOMBRE_CLIENTE VARCHAR(50), 
+	APELLIDO_CLIENTE VARCHAR(50), 
+	DIRECCION_CLIENTE VARCHAR(50), 
+	DPI_CLIENTE VARCHAR(50),
+     CONSTRAINT id_cliente_pk PRIMARY KEY (id_cliente)
+); 
+
+CREATE TABLE Producto(
+    id_producto INT NOT NULL,
+    nombre_producto varchar(30) not null,
+    precio_proudcto int not null,
+    stock_producto int not null,
+     CONSTRAINT id_producto_pk PRIMARY KEY (id_producto)
+);
+
+
+CREATE TABLE FACTURA(
+    id_factura int not null,
+    id_cliente int not null,
+    id_vendedor int not null,
+    fecha_factura date not null,
+     CONSTRAINT id_factura_pk PRIMARY KEY (id_factura),
+  CONSTRAINT fk_idcliente
+    FOREIGN KEY (id_cliente)
+    REFERENCES cliente(id_cliente),
+      CONSTRAINT fk_id_vendedor
+    FOREIGN KEY (id_vendedor)
+    REFERENCES vendedor(id_vendedor)
+);
+
+CREATE TABLE Detalle(
+    id_detalle int not null,
+    id_factura int not null,
+    id_producto int not null,
+    cantidad int not null,
+    sub_total int  not null,
+    CONSTRAINT id_detalle_pk PRIMARY KEY (id_detalle),
+      CONSTRAINT fk_id_factura
+    FOREIGN KEY (id_factura)
+    REFERENCES factura(id_factura),
+      CONSTRAINT fk_id_prodcuto
+    FOREIGN KEY (id_producto)
+    REFERENCES producto(id_producto)
+);
+
