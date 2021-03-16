@@ -1,3 +1,10 @@
+-- CANTIDAD DE FACTURAS
+
+SELECT  (select cliente.nombre_cliente from cliente where id_cliente = c.id_cliente) AS NOMBRE,
+count(c.id_cliente) AS CANTIDAD 
+from factura f inner join cliente c on f.id_cliente = c.id_cliente 
+group by c.id_cliente;
+
 
 -- SOLUCION CON SUBCONSULTA TOP3
 
