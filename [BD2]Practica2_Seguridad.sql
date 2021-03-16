@@ -1,7 +1,7 @@
 --CONFIGURAR PARAMETROS BASE DE DATOS
 --SGA
 SHOW PARAMETERS SGA;
-ALTER SYSTEM SET SGA_TARGET=500M scope=spfile;
+ALTER SYSTEM SET SGA_TARGET=2000M scope=spfile;
 --Sessions formula Default value Derived: (1.5 * PROCESSES) + 22
 SHOW PARAMETER sessions;
 ALTER SYSTEM SET sessions=500 scope=spfile
