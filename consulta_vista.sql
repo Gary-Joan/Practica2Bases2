@@ -1,5 +1,5 @@
 -- CANTIDAD DE FACTURAS
-
+EXPLAIN PLAN FOR
 SELECT  (select cliente.nombre_cliente from cliente where id_cliente = c.id_cliente) AS NOMBRE,
 count(c.id_cliente) AS CANTIDAD 
 from factura f inner join cliente c on f.id_cliente = c.id_cliente 
@@ -37,6 +37,15 @@ GROUP BY D.ID_PRODUCTO
 ORDER BY CANTIDAD ASC
 FETCH FIRST 5 ROWS ONLY;
 
+-- Consulta con explain
+EXPLAIN PLAN FOR 
+SELECT (select PRODUCTO.NOMBRE_PRODUCTO from PRODUCTO where PRODUCTO.ID_PRODUCTO = D.ID_PRODUCTO) AS NOMBRE,  
+SUM(D.CANTIDAD) AS CANTIDAD 
+from DETALLE D inner join PRODUCTO P on D.ID_PRODUCTO = P.ID_PRODUCTO
+GROUP BY D.ID_PRODUCTO 
+ORDER BY CANTIDAD ASC
+FETCH FIRST 5 ROWS ONLY;
+
 
 -- VER VISTA Y BORRAR VISTA TOP3
 
@@ -46,3 +55,7 @@ DROP VIEW TOP3VENTA;
 -- VER VISTA Y BORRAR VISTA TOP5
 SELECT * FROM TOP5VENTA;
 DROP VIEW TOP5VENTA;
+
+-- Verificar plan de ejecucion con explain
+
+SELECT* FROM TABLE(dbms_xplan.display);
