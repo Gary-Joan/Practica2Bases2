@@ -33,6 +33,41 @@ CREATE VIEW TOP5VENTA AS
 SELECT (select PRODUCTO.NOMBRE_PRODUCTO from PRODUCTO where PRODUCTO.ID_PRODUCTO = D.ID_PRODUCTO) AS NOMBRE,  
 SUM(D.CANTIDAD) AS CANTIDAD 
 from DETALLE D inner join PRODUCTO P on D.ID_PRODUCTO = P.ID_PRODUCTO
+
+
+
+-- REALIZAR TRACE Y TKPROF MANUAL
+
+-- Cambiar el nombre de tracefile
+alter session set tracefile_identifier='TOP3PRODUCTO';
+
+-- Habilidar Trace
+BEGIN DBMS_SESSION.SESSION_TRACE_ENABLE; end;
+
+-- Realizar la consulta
+SELECT (SELECT PR.NOMBRE_PRODUCTO FROM PRODUCTO PR WHERE PR.ID_PRODUCTO = D.ID_PRODUCTO), 
+SUM(D.CANTIDAD) AS CANTIDAD 
+FROM DETALLE D,PRODUCTO P 
+WHERE D.ID_PRODUCTO = P.ID_PRODUCTO
+GROUP BY D.ID_PRODUCTO
+ORDER BY CANTIDAD DESC
+FETCH FIRST 3 ROWS ONLY;
+
+-- Desabilitar trace
+BEGIN DBMS_SESSION.SESSION_TRACE_DISABLE; end;
+
+-- Verificar informacion del plan de ejecucion de la consulta
+SELECT * FROM V$DIAG_INFO;
+
+--- ruta donde se guarda 
+/u01/app/oracle/diag/rdbms/orcl18/ORCL18/trace
+
+
+-- Comando para traducir el con la herramienta de tkprof
+tkprof ORCL18_ora_541_TOP3PRODUCTO.trc /u01/app/oracle/salidaTOP3.txt
+
+-- Ruta con nombre del archivo en donde se hizo la traduccion con la herramienta tkprof
+/u01/app/oracle/salidaTOP3.txt
 GROUP BY D.ID_PRODUCTO 
 ORDER BY CANTIDAD ASC
 FETCH FIRST 5 ROWS ONLY;
