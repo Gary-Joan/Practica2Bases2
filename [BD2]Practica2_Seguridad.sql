@@ -33,6 +33,7 @@ CREATE ROLE Contabilidad;
 CREATE ROLE Ventas;
 CREATE ROLE IT;
 CREATE ROLE Gerencia;
+SELECT * FROM DBA_ROLES;
 
 --ASIGNAR PERMISOS A LOS ROLES
 
@@ -43,7 +44,15 @@ GRANT CONNECT TO Contabilidad;
 
 --PERMISOS ROL Ventas;
 GRANT INSERT ANY TABLE TO Ventas;
-GRANT SELECT ANY TABLE TO Ventas;
+
+GRANT SELECT on admin.cliente TO Ventas;
+GRANT SELECT on admin.detalle TO Ventas;
+GRANT SELECT on admin.factura TO Ventas;
+GRANT SELECT on admin.producto TO Ventas;
+GRANT SELECT on admin.vendedor TO Ventas;
+
+
+
 GRANT CONNECT TO Ventas;
 
 --PERMISOS ROL IT;
@@ -56,7 +65,13 @@ GRANT CONNECT TO IT;
 --PERMISOS ROL Gerencia;
 GRANT UPDATE TABLE TO Gerencia;
 GRANT INSERT ANY TABLE TO Gerencia;
-GRANT SELECT ANY TABLE TO Gerencia;
+
+GRANT SELECT on admin.cliente TO Gerencia;
+GRANT SELECT on admin.detalle TO Gerencia;
+GRANT SELECT on admin.factura TO Gerencia;
+GRANT SELECT on admin.producto TO Gerencia;
+GRANT SELECT on admin.vendedor TO Gerencia;
+
 GRANT DELETE ANY TABLE TO Gerencia;
 GRANT CREATE USER TO Gerencia;
 GRANT CONNECT TO Gerencia;
@@ -72,7 +87,8 @@ GRANT Contabilidad TO Contabilidad2;
 CREATE USER Ventas1 IDENTIFIED BY bd2Ventas1;
 CREATE USER Ventas2 IDENTIFIED BY bd2Ventas2;
 GRANT Ventas TO Ventas1;
-GRANT Ventas TO Ventas1;
+GRANT SELECT on admin.top5venta to Ventas1;
+GRANT Ventas TO Ventas2;
 
 CREATE USER IT1 IDENTIFIED BY bd2IT1;
 CREATE USER IT2 IDENTIFIED BY bd2IT2;
@@ -82,7 +98,10 @@ GRANT IT TO IT2;
 CREATE USER Gerencia1 IDENTIFIED BY bd2Gerencia1;
 CREATE USER Gerencia2 IDENTIFIED BY bd2Gerencia2;
 GRANT Gerencia TO Gerencia1;
+GRANT SELECT on admin.top3venta to Gerencia1;
 GRANT Gerencia TO Gerencia2;
+
+
 
 --VER PERMISOS POR ROL
 SELECT *  FROM DBA_SYS_PRIVS WHERE GRANTEE='IT';
